@@ -38,3 +38,30 @@ local function taunt_clover()
 	game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/clover is better", "All")
 	game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/e dance", "All")
 end
+-- ========== LIGHTER COLOR SCHEME ==========
+local C = {
+    bg          = Color3.fromRGB(220, 255, 220),
+    panel       = Color3.fromRGB(210, 250, 210),
+    card        = Color3.fromRGB(200, 245, 200),
+    cardHov     = Color3.fromRGB(190, 240, 190),
+
+    border      = Color3.fromRGB(120, 220, 120),
+    accent      = Color3.fromRGB(100, 255, 100),
+
+    text        = Color3.fromRGB(20, 80, 20),
+    textDim     = Color3.fromRGB(50, 120, 50),
+
+    chipBg      = Color3.fromRGB(190, 240, 190),
+    chipText    = Color3.fromRGB(20, 80, 20),
+
+    pillOn      = Color3.fromRGB(120, 255, 120),
+    pillOff     = Color3.fromRGB(180, 220, 180),
+
+    dotOn       = Color3.fromRGB(0, 255, 0),
+    dotOff      = Color3.fromRGB(120, 180, 120),
+
+    navIdle     = Color3.fromRGB(180, 220, 180),
+    navActive   = Color3.fromRGB(120, 255, 120),
+
+    header      = Color3.fromRGB(180, 245, 180),
+}
