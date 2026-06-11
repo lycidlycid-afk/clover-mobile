@@ -623,4 +623,4 @@ local function stopAutoLeft()
         local hum2=c:FindFirstChildOfClass("Humanoid")
         if hum2 then hum2:Move(Vector3.zero,false) end
     end
-end
+end)
