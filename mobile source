@@ -1,13 +1,12 @@
-local Players         = game:GetService("Players")
-local RunService      = game:GetService("RunService")
-local UIS             = game:GetService("UserInputService")
-local TweenService    = game:GetService("TweenService")
-local HttpService     = game:GetService("HttpService")
-local Lighting        = game:GetService("Lighting")
-local LP              = Players.LocalPlayer
-
-local _isfile   = isfile   or (syn and syn.isfile)   or function() return false end
-local _readfile = readfile  or (syn and syn.readfile)  or function() return nil  end
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UIS = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local HttpService = game:GetService("HttpService")
+local Lighting = game:GetService("Lighting")
+local LP = Players.LocalPlayer
+local _isfile = isfile or (syn and syn.isfile) or function() return false end
+local _readfile = readfile or (syn and syn.readfile) or function() return nil end
 local _writefile= writefile or (syn and syn.writefile) or function() end
 local getconnections = getconnections or get_signal_cons or getconnects or (syn and syn.get_signal_cons)
 
@@ -34,3 +33,8 @@ local State = {
     duelLaggerThread=nil,
     countdownActive=false,
 }
+
+local function taunt_clover()
+	game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/clover is better", "All")
+	game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/e dance", "All")
+end
