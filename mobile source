@@ -301,3 +301,29 @@ UIS.JumpRequest:Connect(function()
         root.Velocity = Vector3.new(root.Velocity.X, 55, root.Velocity.Z)
     end
 end)
+local function desync_clover()
+    local Players = game:GetService("Players")
+    local RunService = game:GetService("RunService")
+    local UserInputService = game:GetService("UserInputService")
+    local LocalPlayer = Players.LocalPlayer
+    local isDesyncActive = false
+    local selectedKey = Enum.KeyCode.V
+
+    local function ToggleDesync()
+        isDesyncActive = not isDesyncActive
+        if isDesyncActive then
+            print("Desync activated")
+        else
+            print("Desync deactivated")
+        end
+    end
+
+    UserInputService.InputBegan:Connect(function(input, gameProcessed)
+        if gameProcessed then return end
+        if input.KeyCode == selectedKey then
+            ToggleDesync()
+        end
+    end)
+end
+
+desync_clover()
