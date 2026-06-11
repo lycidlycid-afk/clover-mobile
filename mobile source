@@ -119,7 +119,6 @@ for i = 1, 48 do
 end
 repeat task.wait() until game:IsLoaded()
 
-
 do
 local _TS = game:GetService("TweenService")
 local _SS = game:GetService("SoundService")
