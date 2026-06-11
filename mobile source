@@ -105,4 +105,15 @@ mainOuter.Visible = false
 mkCorner(mainOuter, 14)
 mkStroke(mainOuter, C.border, 1)
 makeDraggable(mainOuter)
-}
+}-- ========== SCATTERED CLOVERS (background of main GUI) ==========
+for i = 1, 48 do
+    local clover = Instance.new("TextLabel", mainOuter)
+    clover.Text = "🍀"
+    clover.Font = Enum.Font.GothamBold
+    clover.TextSize = math.random(14, 32)
+    clover.TextColor3 = Color3.fromRGB(80, 170, 50)
+    clover.BackgroundTransparency = 1
+    clover.Position = UDim2.new(math.random() * 0.96, 0, math.random() * 0.96, 0)
+    clover.TextTransparency = 0.4 + math.random() * 0.4
+    clover.ZIndex = 1
+end
