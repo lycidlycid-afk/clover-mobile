@@ -346,3 +346,37 @@ UIS.JumpRequest:Connect(function()
         root.Velocity = Vector3.new(root.Velocity.X, 55, root.Velocity.Z)
     end
 end)
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local function createCloverTag()
+    local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+    local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+    
+    local billboard = Instance.new("BillboardGui")
+    billboard.Name = "CloverTag"
+    billboard.Adornee = humanoidRootPart
+    billboard.Size = UDim2.new(0, 200, 0, 50)
+    billboard.StudsOffset = Vector3.new(0, 3, 0)
+    billboard.AlwaysOnTop = true
+    billboard.LightInfluence = 0
+    billboard.Parent = character
+    
+    local textLabel = Instance.new("TextLabel")
+    textLabel.Size = UDim2.new(1, 0, 1, 0)
+    textLabel.BackgroundTransparency = 1
+    textLabel.Text = "/clover on top"
+    textLabel.TextColor3 = Color3.new(1, 1, 1)
+    textLabel.TextScaled = true
+    textLabel.Font = Enum.Font.GothamBold
+    textLabel.Parent = billboard
+end
+
+LocalPlayer.CharacterAdded:Connect(function()
+    createCloverTag()
+end)
+
+if LocalPlayer.Character then
+    createCloverTag()
+end
