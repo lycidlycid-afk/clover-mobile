@@ -162,7 +162,7 @@ title.TextStrokeColor3 = Color3.new(0,0,0)
 title.Parent = bg
 
 local sound = Instance.new("Sound")
-sound.SoundId = "rbxassetid://7777392893"
+sound.SoundId = "rbxassetid://134497791921204"
 sound.Volume = 1.0
 sound.Looped = false
 sound.Parent = _SS
