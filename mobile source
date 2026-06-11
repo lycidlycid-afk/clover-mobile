@@ -64,4 +64,45 @@ local C = {
     navActive   = Color3.fromRGB(120, 255, 120),
 
     header      = Color3.fromRGB(180, 245, 180),
+local function mkCorner(p,r) local c=Instance.new("UICorner",p); c.CornerRadius=UDim.new(0,r or 8); return c end
+local function mkStroke(p,col,th)
+    local s=Instance.new("UIStroke",p); s.Color=col or Color3.fromRGB(130,180,110); s.Thickness=th or 1
+    s.ApplyStrokeMode=Enum.ApplyStrokeMode.Border; return s
+end
+
+local function makeDraggable(frame, handle, force)
+    local src=handle or frame
+    local dragging,dragInput,dragStart,startPos=false,nil,nil,nil
+    src.InputBegan:Connect(function(inp)
+        if State.uiLocked and not force then return end
+        if inp.UserInputType==Enum.UserInputType.MouseButton1 or inp.UserInputType==Enum.UserInputType.Touch then
+            dragging=true; dragStart=inp.Position; startPos=frame.Position
+            inp.Changed:Connect(function() if inp.UserInputState==Enum.UserInputState.End then dragging=false end end)
+        end
+    end)
+    src.InputChanged:Connect(function(inp)
+        if inp.UserInputType==Enum.UserInputType.MouseMovement or inp.UserInputType==Enum.UserInputType.Touch then dragInput=inp end
+    end)
+    UIS.InputChanged:Connect(function(inp)
+        if inp==dragInput and dragging and (force or not State.uiLocked) then
+            local dx=inp.Position.X-dragStart.X; local dy=inp.Position.Y-dragStart.Y
+            frame.Position=UDim2.new(startPos.X.Scale,startPos.X.Offset+dx,startPos.Y.Scale,startPos.Y.Offset+dy)
+        end
+    end)
+end
+
+local WIN_W = 330
+local WIN_H = 580
+
+local mainOuter = Instance.new("Frame", gui)
+mainOuter.Name = "MainOuter"
+mainOuter.Size = UDim2.new(0, 0, 0, 0)
+mainOuter.Position = UDim2.new(0, 8, 0, 8)
+mainOuter.BackgroundColor3 = C.bg
+mainOuter.BorderSizePixel = 0
+mainOuter.ClipsDescendants = false
+mainOuter.Visible = false
+mkCorner(mainOuter, 14)
+mkStroke(mainOuter, C.border, 1)
+makeDraggable(mainOuter)
 }
