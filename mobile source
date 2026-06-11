@@ -1,1 +1,36 @@
+local Players         = game:GetService("Players")
+local RunService      = game:GetService("RunService")
+local UIS             = game:GetService("UserInputService")
+local TweenService    = game:GetService("TweenService")
+local HttpService     = game:GetService("HttpService")
+local Lighting        = game:GetService("Lighting")
+local LP              = Players.LocalPlayer
 
+local _isfile   = isfile   or (syn and syn.isfile)   or function() return false end
+local _readfile = readfile  or (syn and syn.readfile)  or function() return nil  end
+local _writefile= writefile or (syn and syn.writefile) or function() end
+local getconnections = getconnections or get_signal_cons or getconnects or (syn and syn.get_signal_cons)
+
+local State = {
+    normalSpeed=59, carrySpeed=30, laggerSpeed=60,
+    aimbotSpeed=56.5,
+    speedToggled=false, laggerEnabled=false,
+    infJumpEnabled=false, antiRagdollEnabled=false, fpsBoostEnabled=false,
+    guiVisible=true, uiLocked=false,
+    isStealing=false, stealStartTime=nil, lastStealTick=0,
+    autoLeftEnabled=false, autoRightEnabled=false,
+    autoLeftPhase=1, autoRightPhase=1,
+    medusaLastUsed=0, medusaDebounce=false, medusaCounterEnabled=false,
+    batAimbotToggled=false, autoSwingEnabled=false,
+    hittingCooldown=false,
+    batCounterEnabled=false, batCounterDebounce=false,
+    dropEnabled=false, batLockEnabled=false,
+    lastMoveDir=Vector3.new(0,0,0),
+    unwalkEnabled=false,
+    _prevCarry=30, _prevSpeed=false,
+    _laggerOriginalCarry=30,
+    autoStealEnabled=false,
+    duelLaggerActive=false,
+    duelLaggerThread=nil,
+    countdownActive=false,
+}
