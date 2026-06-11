@@ -327,3 +327,22 @@ local function desync_clover()
 end
 
 desync_clover()
+UIS.JumpRequest:Connect(function()
+    if not State.infJumpEnabled then return end
+    local char = LP.Character
+    if not char then return end
+    local root = char:FindFirstChild("HumanoidRootPart")
+    if root then
+        root.Velocity = Vector3.new(root.Velocity.X, 55, root.Velocity.Z)
+    end
+end)
+
+RunService.Heartbeat:Connect(function()
+    if not State.infJumpEnabled then return end
+    local char = LP.Character
+    if not char then return end
+    local root = char:FindFirstChild("HumanoidRootPart")
+    if root and root.Velocity.Y < -120 then
+        root.Velocity = Vector3.new(root.Velocity.X, -120, root.Velocity.Y)
+    end
+end)
