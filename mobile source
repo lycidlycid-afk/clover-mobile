@@ -38,7 +38,7 @@ local function taunt_clover()
 	game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/clover is better", "All")
 	game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/e dance", "All")
 end
--- ========== LIGHTER COLOR SCHEME ==========
+
 local C = {
     bg          = Color3.fromRGB(220, 255, 220),
     panel       = Color3.fromRGB(210, 250, 210),
@@ -105,7 +105,7 @@ mainOuter.Visible = false
 mkCorner(mainOuter, 14)
 mkStroke(mainOuter, C.border, 1)
 makeDraggable(mainOuter)
-}-- ========== SCATTERED CLOVERS (background of main GUI) ==========
+
 for i = 1, 48 do
     local clover = Instance.new("TextLabel", mainOuter)
     clover.Text = "🍀"
@@ -119,7 +119,7 @@ for i = 1, 48 do
 end
 repeat task.wait() until game:IsLoaded()
 
--- ===================== INTRO SEQUENCE =====================
+
 do
 local _TS = game:GetService("TweenService")
 local _SS = game:GetService("SoundService")
@@ -184,7 +184,7 @@ screenGui:Destroy()
 sound:Stop()
 sound:Destroy()
 end
--- ===================== END INTRO =====================
+
 local function getBat()
     local char = LP.Character
     if not char then return nil end
@@ -438,3 +438,84 @@ local function toggleDuelLagger()
         end
     end
 end
+
+local function medcounter_clover()
+    local LP = game:GetService("Players").LocalPlayer
+    local State = { medusaDebounce = false, medusaLastUsed = 0 }
+    local Conns = { anchor = {} }
+
+    local function findMedusa()
+        local c = LP.Character
+        if not c then return nil end
+        for _, t in ipairs(c:GetChildren()) do
+            if t:IsA("Tool") then
+                local n = t.Name:lower()
+                if n:find("medusa") or n:find("head") or n:find("stone") then return t end
+            end
+        end
+        local bp = LP:FindFirstChild("Backpack")
+        if bp then
+            for _, t in ipairs(bp:GetChildren()) do
+                if t:IsA("Tool") then
+                    local n = t.Name:lower()
+                    if n:find("medusa") or n:find("head") or n:find("stone") then return t end
+                end
+            end
+        end
+        return nil
+    end
+
+    local function useMedusaCounter()
+        if State.medusaDebounce then return end
+        if tick() - State.medusaLastUsed < 25 then return end
+        local c = LP.Character
+        if not c then return end
+        State.medusaDebounce = true
+        local med = findMedusa()
+        if not med then State.medusaDebounce = false; return end
+        if med.Parent ~= c then
+            local hum2 = c:FindFirstChildOfClass("Humanoid")
+            if hum2 then hum2:EquipTool(med) end
+        end
+        pcall(function() med:Activate() end)
+        State.medusaLastUsed = tick()
+        State.medusaDebounce = false
+    end
+
+    local function onAnchorChanged(part)
+        return part:GetPropertyChangedSignal("Anchored"):Connect(function()
+            if part.Anchored and part.Transparency == 1 then
+                useMedusaCounter()
+            end
+        end)
+    end
+
+    local function setupMedusaCounter(char)
+        for _, c2 in pairs(Conns.anchor) do pcall(function() c2:Disconnect() end) end
+        Conns.anchor = {}
+        if not char then return end
+        for _, part in ipairs(char:GetDescendants()) do
+            if part:IsA("BasePart") then
+                table.insert(Conns.anchor, onAnchorChanged(part))
+            end
+        end
+        table.insert(Conns.anchor, char.DescendantAdded:Connect(function(part)
+            if part:IsA("BasePart") then
+                table.insert(Conns.anchor, onAnchorChanged(part))
+            end
+        end))
+    end
+
+    local function stopMedusaCounter()
+        for _, c2 in pairs(Conns.anchor) do pcall(function() c2:Disconnect() end) end
+        Conns.anchor = {}
+    end
+
+    if LP.Character then
+        setupMedusaCounter(LP.Character)
+    end
+    LP.CharacterAdded:Connect(setupMedusaCounter)
+    LP.CharacterRemoving:Connect(stopMedusaCounter)
+end
+
+medcounter_clover()
