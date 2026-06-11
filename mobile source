@@ -126,7 +126,7 @@ local _PL = game:GetService("Players").LocalPlayer
 local _PG = _PL:WaitForChild("PlayerGui")
 
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "BloodHubIntro"
+screenGui.Name = "CloverHubIntro"
 screenGui.ResetOnSpawn = false
 screenGui.IgnoreGuiInset = true
 screenGui.DisplayOrder = 999
